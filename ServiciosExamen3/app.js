@@ -3,10 +3,22 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
+
+const databaseUrl = "mongodb://localhost:27017/appDatabase"
+const databaseOptions = {
+    userNewUrlParser : true
+};
+
+mongoose.connect(databaseUrl, databaseOptions);
+mongoose.connection.on("open", function(){
+    console.log("MongoDB connection openned");
+});
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var servicesRouter = require('./routes/services');
+
 
 
 var app = express();
