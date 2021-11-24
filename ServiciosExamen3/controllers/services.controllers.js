@@ -1,4 +1,6 @@
 const { Service } = require('../models/services.model')
+// const redis = require('redis');
+// const client = redis.createClient();
 
 // async function saludar(req, res){
 //     try{
@@ -98,36 +100,55 @@ async function updateService (req, res){
     }
 } 
 
-async function getServices(req, res){
+    async function getServices(req, res){
     const {userId, userTypeId, businessId} =req.body;
 
     console.log(req.body);
 
+
     try{
         if(userId!=null && userTypeId!=null && userId!=undefined && userTypeId!=undefined){
-            console.log(userTypeId);
-            console.log(userId);
-            console.log(businessId);
+            // let listaBusiness = 'listaBusiness'
+            // let listaClient = 'listaClient'
 
             let servicesList = null;
             if(businessId != null && businessId != undefined && userTypeId == 1){
-                servicesList = await Service.find({"businessId": `${businessId}`},{"_id":1, "name":1, "businessName": 1, "description":1,"requiredTime":1, "cost":1, "image": 1});
-                console.log(servicesList.lenght);
+                // var r = await client.get(listaBusiness)
+                // console.log(r);
+                // let listaServicios = JSON.parse(r)
+                // if(listaServicios != null && listaServicios != undefined){
+                //     return res.status(200).json({succes: true, data: listaServicios})
+                // }else{
+                    servicesList = await Service.find({"businessId": `${businessId}`},{"_id":1, "name":1, "businessName": 1, "description":1,"requiredTime":1, "cost":1, "image": 1});
+                    console.log(servicesList.lenght);
+    
+                    if( servicesList && servicesList.length > 0 ){
+                        // console.log("Guardando en el cache de redis")
+                        //  client.set(listaBusiness, JSON.stringify(servicesList));
+    
+                        // console.log('%c⧭', 'color: #ff0000', res.body);
+                        return res.status(200).json(servicesList);
+                    }else{
+                        return res.status(204).json([]);
+                    }
 
-                if( servicesList && servicesList.length > 0 ){
-
-                    // console.log('%c⧭', 'color: #ff0000', res.body);
-                    return res.status(200).json(servicesList);
-                }else{
-                    return res.status(204).json([]);
-                }
+                // }
             }else{
-                servicesList = await Service.find({},{"_id":1, "name":1, "businessName": 1, "description":1,"requiredTime":1, "cost":1, "image": 1});
-                if( servicesList && servicesList.length > 0 ){
-                    return res.status(200).json(servicesList);
-                }else{
-                    return res.status(200).json([]);
-                }
+                // var r = await client.get(listaClient)
+                // console.log(r);
+                // let listaServicios = JSON.parse(r)
+
+                // if(listaServicios != null && listaServicios != undefined){
+                //     return res.status(200).json({succes: true, data: listaServicios})
+                // }else{
+                    servicesList = await Service.find({},{"_id":1, "name":1, "businessName": 1, "description":1,"requiredTime":1, "cost":1, "image": 1});
+                    if( servicesList && servicesList.length > 0 ){
+                        return res.status(200).json(servicesList);
+                    }else{
+                        return res.status(200).json([]);
+                    }
+                // }
+
             }
         }else{
             console.log("No entro la condicion")
