@@ -1,5 +1,5 @@
 const JWT = require("jsonwebtoken");
-const privateKey = "el_muchacho_de_los_ojos_tristes";
+const privateKey = "1234";
 
 
 async function getjwtToken(req, res){
@@ -7,7 +7,7 @@ async function getjwtToken(req, res){
     ///Imaginar que hay una validaciÃ³n de usuario
 
     const payload = {
-        userName: "cliente",
+        userName: "usuarioCliente",
         exp: Date.now() + (60 * 1000) //Valida por treinta segundo
 
     };

@@ -11,16 +11,28 @@ const databaseOptions = {
     useNewUrlParser : true
 };
 
+// try {
+//   const redis = require('redis');
+//   client = redis.createClient();
+
+//   const util = require('util');
+//   client.get = util.promisify(client.get);
+//   console.log("Redis Conectado");
+// } catch (error) {
+//   console.log("Redis no Conectado");
+// }
+
 mongoose.connect(databaseUrl, databaseOptions);
 mongoose.connection.on("open", function(){
     console.log("MongoDB connection openned");
 });
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+
 var servicesRouter = require('./routes/services');
 var authRouter = require('./routes/auth.routes');
 var citasRouter = require('./routes/citas')
+var usersRouter = require('./routes/users')
 
 
 
@@ -45,16 +57,7 @@ app.use('/citas', citasRouter);
 app.use('/Login', authRouter);
 
 
-// try {
-//   const redis = require('redis');
-//   client = redis.createClient();
 
-//   const util = require('util');
-//   client.get = util.promisify(client.get);
-//   console.log("Redis Conectado");
-// } catch (error) {
-//   console.log("Redis no Conectado");
-// }
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

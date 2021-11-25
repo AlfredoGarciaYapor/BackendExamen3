@@ -30,7 +30,7 @@ async function getCitas(req, res){
 }
 
 async function newCita(req,res){
-    const {date, time, businessId, businessName, name, userName, image} = req.body
+    const {date, time, businessId, businessId, name, userName, image} = req.body
     try {
         if(date != null && time != null && businessId != null && businessName != null && name != null && userName != null && date != undefined && time != undefined && businessId != undefined && businessName != undefined && name != undefined && userName != undefined){
             const newCita = await new Cita({
